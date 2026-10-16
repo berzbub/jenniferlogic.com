@@ -1,0 +1,6 @@
+{
+    "terminal": {
+        "welcome_message": "[SYS] Sovereign Edge Portal initialized successfully. Type 'help' for command list.",
+        "command_not_found": "[ERROR] Command not recognized. Type 'help' for available commands."
+    }
+}

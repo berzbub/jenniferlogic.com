@@ -1,0 +1,6 @@
+{
+    "terminal": {
+        "welcome_message": "[SYS] Maong ya labi. Maliket ya pamilya ed Sovereign Edge. I-type so 'help' parad listaan na command.",
+        "command_not_found": "[ERROR] Agbalbaley so command. I-type so 'help' parad tulong."
+    }
+}

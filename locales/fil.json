@@ -1,0 +1,6 @@
+{
+    "terminal": {
+        "welcome_message": "[SYS] Maligayang pagdating sa Sovereign Edge Portal. I-type ang 'help' para sa mga utos.",
+        "command_not_found": "[ERROR] Hindi matagpuan ang utos. I-type ang 'help' para sa tulong."
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "terminal": {
+        "welcome_message": "[SYS] Naimbag a rabii. Naserraan ti Sovereign Edge. Type 'help' para iti listaan dagiti bilin.",
+        "command_not_found": "[ERROR] Agkurang ti bilin. Type 'help' para iti tulong."
+    }
+}
