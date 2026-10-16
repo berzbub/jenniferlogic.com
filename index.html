@@ -1,128 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jennifer Logic</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: #070907;
-      color: #ffffff;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Olive Green Ambient Lighting Background */
-    .glow-1 {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(107, 142, 35, 0.22) 0%, rgba(0,0,0,0) 70%);
-      top: 25%;
-      left: 30%;
-      transform: translate(-50%, -50%);
-      filter: blur(80px);
-      z-index: 1;
-    }
-
-    .glow-2 {
-      position: absolute;
-      width: 350px;
-      height: 350px;
-      background: radial-gradient(circle, rgba(85, 107, 47, 0.25) 0%, rgba(0,0,0,0) 70%);
-      bottom: 20%;
-      right: 30%;
-      transform: translate(50%, 50%);
-      filter: blur(80px);
-      z-index: 1;
-    }
-
-    /* Olive Tinted Glassmorphism Card Element */
-    .glass-card {
-      position: relative;
-      z-index: 2;
-      background: rgba(18, 22, 16, 0.7);
-      backdrop-filter: blur(24px) saturate(130%);
-      -webkit-backdrop-filter: blur(24px) saturate(130%);
-      border: 1px solid rgba(120, 145, 85, 0.2);
-      border-radius: 28px;
-      padding: 52px 40px;
-      text-align: center;
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.85),
-                  inset 0 1px 0 rgba(180, 205, 135, 0.15);
-      max-width: 440px;
-      width: 88%;
-      transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .glass-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(140, 175, 95, 0.4);
-      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.95),
-                  0 0 20px rgba(107, 142, 35, 0.2);
-    }
-
-    h1 {
-      font-size: 2.4rem;
-      font-weight: 800;
-      letter-spacing: -0.8px;
-      margin-bottom: 12px;
-      background: linear-gradient(135deg, #ffffff 40%, #8a9a5b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    p {
-      color: #a3b19b;
-      font-size: 1.05rem;
-      line-height: 1.5;
-      margin-bottom: 36px;
-      font-weight: 400;
-    }
-
-    /* Olive Green Button */
-    .btn {
-      display: inline-block;
-      background: #708238;
-      color: #ffffff;
-      font-weight: 700;
-      font-size: 0.95rem;
-      padding: 14px 32px;
-      border-radius: 50px;
-      text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 4px 20px rgba(85, 107, 47, 0.4);
-    }
-
-    .btn:hover {
-      background: #8a9a5b;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(107, 142, 35, 0.55);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jennifer Logic | Sovereign Edge Portal</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0a0a0c;
+            color: #00ffcc;
+            font-family: 'Courier New', Courier, monospace;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        #output-screen {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            padding-right: 10px;
+        }
+        .terminal-line {
+            margin-bottom: 8px;
+            line-height: 1.4;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #00ffcc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .prompt-symbol {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        #command-input {
+            background: transparent;
+            border: none;
+            color: #00ffcc;
+            font-family: inherit;
+            font-size: 1rem;
+            width: 100%;
+            outline: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="glow-1"></div>
-  <div class="glow-2"></div>
 
-  <div class="glass-card">
-    <h1>Jennifer Logic</h1>
-    <p>Welcome to the official portal.</p>
-    <a href="mailto:berzebub@jenniferlogic.com" class="btn">Get in Touch</a>
-  </div>
+    <div id="output-screen"></div>
+
+    <div class="input-container">
+        <span class="prompt-symbol">&gt;</span>
+        <input type="text" id="command-input" placeholder="Type a command (e.g. 'help', 'status')..." autofocus>
+    </div>
+
+    <script type="module" src="./app.js"></script>
 </body>
 </html>
