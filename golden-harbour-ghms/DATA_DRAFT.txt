@@ -1,0 +1,42 @@
+================================================================================
+PATIENT CARE & INVENTORY MANAGEMENT SYSTEM DATA DRAFT
+ORGANIZATION: GOLDEN HARBOUR HOSPITAL
+================================================================================
+
+1. PHARMA MEDICINE INVENTORY LOG
+--------------------------------------------------------------------------------
+[INVENTORY_ID]   [MEDICINE_NAME]   [CATEGORY]   [STOCK_LEVEL]   [REORDER_POINT]   [EXPIRY_DATE]
+* System track enabled for real-time stock monitoring and automated reorder alerts.
+
+2. AFTER-DISCHARGE CHECK-UP & LAB-TEST SCHEDULE
+--------------------------------------------------------------------------------
+[PATIENT_ID]   [PATIENT_NAME]   [DISCHARGE_DATE]   [FOLLOW_UP_DATE]   [REQUIRED_LAB_TESTS]
+* Post-discharge protocol scheduled for ongoing recovery monitoring.
+
+3. OUTPATIENT & INPATIENT SCHEDULES
+--------------------------------------------------------------------------------
+A. Doctor Appointments:
+   [APPT_ID]   [PATIENT_ID]   [PATIENT_TYPE]   [DOCTOR_NAME]   [DATE_TIME]   [STATUS]
+   (Patient Type: Inpatient / Outpatient)
+
+B. Lab Test Schedule:
+   [LAB_ID]    [PATIENT_ID]   [TEST_TYPE]      [SCHEDULED_TIME]  [DEPT]      [STATUS]
+
+4. INTEGRATED AI COMMUNICATION & VOICE ENCODING MODULE
+--------------------------------------------------------------------------------
+A. Automated Patient SMS Reminders:
+   * AI-triggered SMS notifications sent for upcoming doctor appointments,
+     lab tests, and post-discharge follow-ups.
+
+B. Voice Data & Swift Encoding Engine:
+   * AI voice-to-text processing for incoming patient audio/voice messages.
+   * Swift automated encoding into the patient database records.
+
+5. CLINICAL NOTE-TAKING (DOCTOR ADVICE & PROGNOSIS)
+--------------------------------------------------------------------------------
+[RECORD_ID]    [PATIENT_ID]   [ATTENDING_MD]   [DIAGNOSIS/PROGNOSIS]   [DOCTOR_ADVICE/PLAN]
+* AI-assisted dictation and rapid transcription for immediate record integration.
+
+================================================================================
+END OF ENCODED RECORD
+================================================================================
