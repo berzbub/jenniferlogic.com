@@ -203,12 +203,15 @@ class AIEngineManager: NSObject, ObservableObject {
         }
     }
 
-    // Local notification reminder (no PHI beyond the patient's name is included)
-    func schedulePatientReminder(patientName: String, appointmentDate: Date, reason: String) {
+    // Notifies hospital staff to call the patient before the visit.
+    // The patient's number is carried in userInfo so the app can open a tel: link on tap.
+    func scheduleCallReminder(patientName: String, contactNumber: String, appointmentDate: Date, reason: String) {
         let content = UNMutableNotificationContent()
-        content.title = "Hospital Reminder: \(reason)"
-        content.body = "Hello \(patientName), this is an automated reminder for your scheduled visit on \(appointmentDate.formatted())."
+        content.title = "Call Patient: \(reason)"
+        content.body = "Please call \(patientName) at \(contactNumber) about the visit on \(appointmentDate.formatted())."
         content.sound = .default
+        let digits = contactNumber.filter { $0.isNumber || $0 == "+" }
+        content.userInfo = ["callURL": "tel:\(digits)"]
 
         let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: appointmentDate.addingTimeInterval(-3600))
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
@@ -218,7 +221,7 @@ class AIEngineManager: NSObject, ObservableObject {
             if let error = error {
                 print("Error scheduling notification: \(error.localizedDescription)")
             } else {
-                print("Reminder successfully queued.")
+                print("Call reminder successfully queued.")
             }
         }
     }
