@@ -30,6 +30,10 @@ struct GoldenHarbourMainView: View {
                 .tabItem { Label("Pharma Inventory", systemImage: "pills.fill") }
                 .tag(1)
 
+            PhotoAuditView()
+                .tabItem { Label("Photo Audit", systemImage: "camera.viewfinder") }
+                .tag(3)
+
             VoiceAIEncoderView(aiEngine: aiEngine)
                 .tabItem { Label("AI Voice / Notes", systemImage: "waveform.and.mic") }
                 .tag(2)

@@ -37,4 +37,23 @@ public enum ClinicalLogic {
     public static func reminderDate(for appointment: Date) -> Date {
         appointment.addingTimeInterval(-3600)
     }
+
+    /// Counted minus system stock. Negative = shortage, positive = surplus.
+    public static func auditVariance(systemStock: Int, countedStock: Int) -> Int {
+        countedStock - systemStock
+    }
+
+    /// Variance as a percentage of system stock. Nil when system stock is zero.
+    public static func auditVariancePercent(systemStock: Int, countedStock: Int) -> Double? {
+        guard systemStock > 0 else { return nil }
+        return Double(countedStock - systemStock) / Double(systemStock) * 100
+    }
+
+    /// True when the count matches the system within `tolerancePercent` (default 0 = exact match).
+    public static func auditWithinTolerance(systemStock: Int, countedStock: Int, tolerancePercent: Double = 0) -> Bool {
+        let variance = countedStock - systemStock
+        if variance == 0 { return true }
+        guard let pct = auditVariancePercent(systemStock: systemStock, countedStock: countedStock) else { return false }
+        return abs(pct) <= tolerancePercent
+    }
 }

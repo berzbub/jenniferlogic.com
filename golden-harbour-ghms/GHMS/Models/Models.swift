@@ -94,3 +94,26 @@ final class ClinicalNote {
         self.doctorAdvice = doctorAdvice
     }
 }
+
+@Model
+final class InventoryAudit {
+    var id: UUID
+    var timestamp: Date
+    var medicineName: String
+    var systemStock: Int
+    var countedStock: Int
+    var auditor: String
+    var notes: String
+    @Attribute(.externalStorage) var photoData: Data?
+
+    init(medicineName: String, systemStock: Int, countedStock: Int, auditor: String, notes: String, photoData: Data?) {
+        self.id = UUID()
+        self.timestamp = Date()
+        self.medicineName = medicineName
+        self.systemStock = systemStock
+        self.countedStock = countedStock
+        self.auditor = auditor
+        self.notes = notes
+        self.photoData = photoData
+    }
+}

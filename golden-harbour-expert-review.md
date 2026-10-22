@@ -5,13 +5,14 @@ Version 1.0 (draft) · Jennifer Logic · Apache 2.0
 **Status: NOT approved.** This packet is for review. No clinician, regulator or institution has approved this software. Do not use it for patient care until the sign-off below is completed.
 
 ## 1. Automated test results
-Unit tests (`cd golden-harbour-ghms && swift test`) — 4 of 4 pass:
+Unit tests (`cd golden-harbour-ghms && swift test`) — 6 of 6 pass:
 | Rule | Expected behaviour |
 |---|---|
 | Reorder flag | Flagged when stock ≤ reorder point |
 | Expiry | Expired when expiry date is before today |
 | Call link | Phone number reduced to digits/`+`; rejected if no digits |
 | Reminder timing | Fires 1 hour before the appointment |
+| Audit variance | Counted minus system stock; percentage of system; tolerance check |
 
 Not covered: UI, speech transcription accuracy, notification delivery, data persistence. These need device testing.
 

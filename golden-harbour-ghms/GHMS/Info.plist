@@ -16,6 +16,8 @@
 	<string>Golden Harbour uses the microphone so clinicians can dictate clinical notes.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Golden Harbour converts your dictation to text to create clinical notes.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Golden Harbour lets you attach a photo of stock as evidence for inventory audits.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict><key>UIApplicationSupportsMultipleScenes</key><false/></dict>
 	<key>UILaunchScreen</key><dict/>

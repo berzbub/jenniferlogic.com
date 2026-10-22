@@ -49,6 +49,6 @@ struct GoldenHarbourApp: App {
         WindowGroup {
             GoldenHarbourMainView()
         }
-        .modelContainer(for: [Patient.self, MedicineItem.self, Appointment.self, ClinicalNote.self])
+        .modelContainer(for: [Patient.self, MedicineItem.self, Appointment.self, ClinicalNote.self, InventoryAudit.self])
     }
 }

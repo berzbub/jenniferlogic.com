@@ -24,4 +24,18 @@ final class ClinicalLogicTests: XCTestCase {
         let d = Date(timeIntervalSince1970: 100000)
         XCTAssertEqual(ClinicalLogic.reminderDate(for: d).timeIntervalSince1970, 96400)
     }
+
+    func testAuditVariance() {
+        XCTAssertEqual(ClinicalLogic.auditVariance(systemStock: 50, countedStock: 45), -5)
+        XCTAssertEqual(ClinicalLogic.auditVariance(systemStock: 50, countedStock: 55), 5)
+    }
+
+    func testAuditPercentAndTolerance() {
+        XCTAssertEqual(ClinicalLogic.auditVariancePercent(systemStock: 200, countedStock: 190)!, -5, accuracy: 0.001)
+        XCTAssertNil(ClinicalLogic.auditVariancePercent(systemStock: 0, countedStock: 3))
+        XCTAssertTrue(ClinicalLogic.auditWithinTolerance(systemStock: 100, countedStock: 100))
+        XCTAssertFalse(ClinicalLogic.auditWithinTolerance(systemStock: 100, countedStock: 99))
+        XCTAssertTrue(ClinicalLogic.auditWithinTolerance(systemStock: 100, countedStock: 97, tolerancePercent: 5))
+        XCTAssertFalse(ClinicalLogic.auditWithinTolerance(systemStock: 0, countedStock: 3, tolerancePercent: 5))
+    }
 }
