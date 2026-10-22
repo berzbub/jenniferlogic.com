@@ -123,10 +123,11 @@ class AIEngineManager: NSObject, ObservableObject {
         content.title = "Call Patient: \(reason)"
         content.body = "Please call \(patientName) at \(contactNumber) about the visit on \(appointmentDate.formatted())."
         content.sound = .default
-        let digits = contactNumber.filter { $0.isNumber || $0 == "+" }
-        content.userInfo = ["callURL": "tel:\(digits)"]
+        if let link = ClinicalLogic.telURL(for: contactNumber) {
+            content.userInfo = ["callURL": link]
+        }
 
-        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: appointmentDate.addingTimeInterval(-3600))
+        let triggerDate = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: ClinicalLogic.reminderDate(for: appointmentDate))
         let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
 
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)

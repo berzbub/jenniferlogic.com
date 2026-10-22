@@ -1,0 +1,19 @@
+{
+  "" : {
+    "diagnostics" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/GHMSLogic-primary.dia",
+    "emit-module-dependencies" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/GHMSLogic-primary-emit-module.d",
+    "emit-module-diagnostics" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/GHMSLogic-primary-emit-module.dia",
+    "pch" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/GHMSLogic-primary-Bridging-header.pch",
+    "swift-dependencies" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/GHMSLogic-primary.swiftdeps"
+  },
+  "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/GHMS/Logic/ClinicalLogic.swift" : {
+    "const-values" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.swiftconstvalues",
+    "dependencies" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.d",
+    "diagnostics" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.dia",
+    "index-unit-output-path" : "/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.o",
+    "llvm-bc" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.bc",
+    "object" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.o",
+    "swift-dependencies" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.swiftdeps",
+    "swiftmodule" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic~partial.swiftmodule"
+  }
+}

@@ -1,0 +1,4 @@
+module GHMSLogic {
+header "GHMSLogic-Swift.h"
+export *
+}

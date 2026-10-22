@@ -121,7 +121,7 @@ struct InventoryView: View {
                         }
                         Spacer()
                         VStack(alignment: .trailing) {
-                            Text("Stock: \(item.stockLevel)").bold().foregroundColor(item.stockLevel <= item.reorderPoint ? .red : .green)
+                            Text("Stock: \(item.stockLevel)").bold().foregroundColor(ClinicalLogic.needsReorder(stockLevel: item.stockLevel, reorderPoint: item.reorderPoint) ? .red : .green)
                             Text("Reorder: \(item.reorderPoint)").font(.caption).foregroundColor(.secondary)
                         }
                     }

@@ -1,0 +1,13 @@
+Target dependency graph (5 targets)
+Target 'AllIncludingTests' in project 'Aggregate'
+➜ Explicit dependency on target 'GHMSLogicTests-product' in project 'GHMSLogic'
+➜ Explicit dependency on target 'GHMSLogicTests-test-runner' in project 'GHMSLogic'
+➜ Explicit dependency on target 'GHMSLogic-product' in project 'GHMSLogic'
+➜ Explicit dependency on target 'GHMSLogic' in project 'GHMSLogic'
+Target 'GHMSLogic-product' in project 'GHMSLogic'
+➜ Explicit dependency on target 'GHMSLogic' in project 'GHMSLogic'
+Target 'GHMSLogicTests-test-runner' in project 'GHMSLogic'
+➜ Explicit dependency on target 'GHMSLogicTests-product' in project 'GHMSLogic'
+Target 'GHMSLogicTests-product' in project 'GHMSLogic'
+➜ Explicit dependency on target 'GHMSLogic' in project 'GHMSLogic'
+Target 'GHMSLogic' in project 'GHMSLogic' (no dependencies)
