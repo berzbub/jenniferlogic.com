@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Harbour GHMS – Browser Simulation</title>
+<style>
+ body{font-family:-apple-system,Segoe UI,sans-serif;background:#e9edf2;margin:0;display:flex;justify-content:center;padding:16px}
+ #phone{width:390px;max-width:100%;height:760px;background:#fff;border-radius:28px;box-shadow:0 8px 30px #0003;display:flex;flex-direction:column;overflow:hidden}
+ #banner{background:#b00020;color:#fff;font-size:12px;padding:6px 10px;text-align:center}
+ #toast{background:#1c1c1e;color:#fff;padding:10px;font-size:13px;display:none}
+ #toast button{margin-left:8px}
+ main{flex:1;overflow:auto;padding:14px}
+ nav{display:flex;border-top:1px solid #ddd}
+ nav button{flex:1;padding:10px 2px;border:0;background:none;font-size:11px;cursor:pointer}
+ nav button.on{color:#0a60ff;font-weight:700}
+ h2{margin:0 0 10px}
+ .card{border:1px solid #e1e4e8;border-radius:10px;padding:10px;margin-bottom:8px}
+ .red{color:#c00;font-weight:700}.green{color:#080;font-weight:700}.small{font-size:12px;color:#666}
+ input,select,textarea{width:100%;box-sizing:border-box;padding:8px;margin:4px 0;font-size:14px}
+ button.p{background:#0a60ff;color:#fff;border:0;border-radius:8px;padding:9px 12px;margin:4px 0;cursor:pointer}
+ img{max-width:100%;max-height:160px}
+</style>
+</head>
+<body>
+<div id="phone">
+ <div id="banner">SIMULATION – sample data only. Not for patient care. Do not enter real patient data.</div>
+ <div id="toast"></div>
+ <main id="view"></main>
+ <nav id="tabs"></nav>
+</div>
+<script src="golden-harbour-logic.js"></script>
+<script>
+const L = ClinicalLogic;
+const KEY = 'ghms-demo-v1';
+const day = 86400000;
+let db = JSON.parse(localStorage.getItem(KEY) || 'null') || {
+  patients: [{name:'Sample Patient A', phone:'+1 555 010 0001', type:'Outpatient', labs:'CBC', appt:Date.now()+2*3600000}],
+  meds: [{name:'Paracetamol 500mg', cat:'Analgesic', stock:8, reorder:10, expiry:Date.now()+200*day},
+         {name:'Amoxicillin 250mg', cat:'Antibiotic', stock:120, reorder:30, expiry:Date.now()+90*day}],
+  audits: [], notes: []
+};
+const save = () => localStorage.setItem(KEY, JSON.stringify(db));
+const view = document.getElementById('view');
+let tab = 'patients', draft = {photo:null};
+
+function el(tag, props = {}, ...kids) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) k === 'class' ? e.className = v : k.startsWith('on') ? e[k] = v : e.setAttribute(k, v);
+  kids.flat().forEach(c => e.append(c));
+  return e;
+}
+function toast(msg, telLink) {
+  const t = document.getElementById('toast'); t.replaceChildren(msg);
+  if (telLink) t.append(el('button', {onclick: () => { alert('Simulated dialer: opening ' + telLink); }}, 'Call'));
+  t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 8000);
+}
+function render() {
+  document.getElementById('tabs').replaceChildren(...[['patients','Patients'],['inventory','Inventory'],['audit','Photo Audit'],['voice','Voice/Notes']]
+    .map(([k, n]) => el('button', {class: tab === k ? 'on' : '', onclick: () => { tab = k; render(); }}, n)));
+  view.replaceChildren(({patients, inventory, audit, voice})[tab]());
+}
+const field = (label, type, init = '') => { const i = el('input', {type, placeholder: label, value: init}); return i; };
+
+function patients() {
+  const n = field('Full name','text'), p = field('Phone','tel'), l = field('Required labs','text');
+  const when = field('Appointment','datetime-local');
+  const ty = el('select', {}, el('option', {}, 'Outpatient'), el('option', {}, 'Inpatient'));
+  return el('div', {}, el('h2', {}, 'Patients & Visits'),
+    db.patients.map((x, i) => el('div', {class:'card'}, el('b', {}, x.name), el('div', {class:'small'}, `${x.type} | ${x.phone} | Labs: ${x.labs}`),
+      el('div', {class:'small'}, x.appt ? 'Visit: ' + new Date(x.appt).toLocaleString() + ' (call reminder 1h before)' : ''),
+      el('button', {class:'p', onclick: () => { toast(`Call ${x.name} at ${x.phone} about the visit.`, L.telURL(x.phone)); }}, 'Simulate call reminder'),
+      el('button', {onclick: () => { db.patients.splice(i, 1); save(); render(); }}, 'Delete'))),
+    el('h3', {}, 'New patient'), n, p, ty, l, when,
+    el('button', {class:'p', onclick: () => { if (!n.value.trim()) return;
+      db.patients.push({name:n.value.trim(), phone:p.value, type:ty.value, labs:l.value, appt: when.value ? new Date(when.value).getTime() : null});
+      save(); render(); }}, 'Save patient'));
+}
+function inventory() {
+  const n = field('Medicine name','text'), c = field('Category','text'), s = field('Stock','number','0'), r = field('Reorder point','number','10'), e = field('Expiry','date');
+  return el('div', {}, el('h2', {}, 'Pharma Inventory'),
+    db.meds.map((m, i) => el('div', {class:'card'}, el('b', {}, m.name), el('div', {class:'small'}, m.cat + ' | expires ' + new Date(m.expiry).toLocaleDateString() + (L.isExpired(new Date(m.expiry)) ? ' EXPIRED' : '')),
+      el('div', {class: L.needsReorder(m.stock, m.reorder) ? 'red' : 'green'}, `Stock ${m.stock} / Reorder ${m.reorder}` + (L.needsReorder(m.stock, m.reorder) ? ' – REORDER' : '')),
+      el('button', {onclick: () => { db.meds.splice(i, 1); save(); render(); }}, 'Delete'))),
+    el('h3', {}, 'Add item'), n, c, s, r, e,
+    el('button', {class:'p', onclick: () => { if (!n.value.trim()) return;
+      db.meds.push({name:n.value.trim(), cat:c.value, stock:+s.value||0, reorder:+r.value||0, expiry: e.value ? new Date(e.value).getTime() : Date.now()+365*day});
+      save(); render(); }}, 'Save item'));
+}
+function audit() {
+  const sel = el('select', {}, el('option', {value:''}, 'Select medicine…'), db.meds.map((m, i) => el('option', {value:i}, m.name)));
+  const counted = field('Counted quantity','number','0'), tol = field('Tolerance %','number','0'), who = field('Auditor name','text'), note = field('Notes','text');
+  const photo = el('input', {type:'file', accept:'image/*'}); const prev = el('img'); const res = el('div');
+  if (draft.photo) prev.src = draft.photo;
+  const calc = () => { const m = db.meds[sel.value]; if (!m) { res.replaceChildren(); return; }
+    const v = L.auditVariance(m.stock, +counted.value), ok = L.auditWithinTolerance(m.stock, +counted.value, +tol.value), pct = L.auditVariancePercent(m.stock, +counted.value);
+    res.replaceChildren(el('div', {class: ok ? 'green' : 'red'}, `System ${m.stock} | Variance ${v > 0 ? '+' : ''}${v}` + (pct === null ? '' : ` (${pct.toFixed(1)}%)`)), el('div', {class:'small'}, ok ? 'Within tolerance' : 'Discrepancy – investigate')); };
+  [sel, counted, tol].forEach(x => x.oninput = calc);
+  photo.onchange = () => { const f = photo.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => { draft.photo = rd.result; prev.src = draft.photo; }; rd.readAsDataURL(f); };
+  return el('div', {}, el('h2', {}, 'Photo Audit Calculator'), sel, photo, prev, counted, tol, res, who, note,
+    el('button', {class:'p', onclick: () => { const m = db.meds[sel.value];
+      if (!m || !draft.photo || !who.value.trim()) return alert('Select medicine, attach photo, enter auditor name.');
+      db.audits.unshift({med:m.name, system:m.stock, counted:+counted.value, auditor:who.value.trim(), note:note.value, time:Date.now()});
+      draft.photo = null; save(); render(); }}, 'Save audit (photo is not stored in demo)'),
+    el('h3', {}, 'Past audits'), db.audits.map(a => el('div', {class:'card'}, el('b', {}, a.med), el('div', {class:'small'}, `System ${a.system} / Counted ${a.counted} / Variance ${L.auditVariance(a.system, a.counted)} · ${a.auditor} · ${new Date(a.time).toLocaleString()}`))));
+}
+function voice() {
+  const t = el('textarea', {rows:4, placeholder:'Dictated text appears here (or type)…'});
+  const md = field('Attending doctor','text'), dx = field('Diagnosis / prognosis','text'), ad = field('Advice / plan','text');
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition; let rec = null;
+  const btn = el('button', {class:'p', onclick: () => {
+    if (!SR) return alert('Speech recognition is not supported in this browser. Type instead.');
+    if (rec) { rec.stop(); rec = null; btn.textContent = 'Start voice input'; return; }
+    rec = new SR(); rec.continuous = true; rec.interimResults = true; rec.lang = 'en-US';
+    rec.onresult = ev => { t.value = [...ev.results].map(r => r[0].transcript).join(' '); };
+    rec.onend = () => { rec = null; btn.textContent = 'Start voice input'; };
+    rec.start(); btn.textContent = 'Stop voice input'; }}, 'Start voice input');
+  return el('div', {}, el('h2', {}, 'AI Voice / Notes'), t, btn, el('div', {class:'small'}, 'Transcripts must be reviewed by a clinician before saving.'),
+    md, dx, ad, el('button', {class:'p', onclick: () => { db.notes.unshift({md:md.value, dx:dx.value, ad:ad.value, tr:t.value, time:Date.now()}); save(); render(); }}, 'Encode clinical record'),
+    db.notes.map(n => el('div', {class:'card'}, el('b', {}, n.md || 'Unknown MD'), el('div', {class:'small'}, `${n.dx} — ${n.ad} · ${new Date(n.time).toLocaleString()}`))));
+}
+render();
+</script>
+</body>
+</html>

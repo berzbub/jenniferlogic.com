@@ -1,0 +1,12 @@
+const assert = require('assert');
+const L = require('./golden-harbour-logic.js');
+assert(L.needsReorder(5, 10) && L.needsReorder(10, 10) && !L.needsReorder(11, 10));
+const now = new Date();
+assert(L.isExpired(new Date(now - 1000), now) && !L.isExpired(new Date(+now + 86400000), now));
+assert.strictEqual(L.telURL('+1 (555) 123-4567'), 'tel:+15551234567');
+assert.strictEqual(L.telURL('abc'), null); assert.strictEqual(L.telURL('+'), null);
+assert.strictEqual(L.reminderDate(new Date(100000000)).getTime(), 96400000);
+assert.strictEqual(L.auditVariance(50, 45), -5);
+assert.strictEqual(L.auditVariancePercent(200, 190), -5); assert.strictEqual(L.auditVariancePercent(0, 3), null);
+assert(L.auditWithinTolerance(100, 100) && !L.auditWithinTolerance(100, 99) && L.auditWithinTolerance(100, 97, 5) && !L.auditWithinTolerance(0, 3, 5));
+console.log('JS logic tests passed');

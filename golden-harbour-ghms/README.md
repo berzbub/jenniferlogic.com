@@ -17,3 +17,6 @@ SwiftUI/SwiftData iOS app (iOS 17+) plus data spec (`DATA_DRAFT.txt`). Apache 2.
 
 ## Before real hospital use
 Encrypted storage, staff login, a secure backend, HIPAA/GDPR review, and a backend service for real SMS.
+
+## No Xcode? Browser simulation
+Open `/golden-harbour-demo.html` (https://jenniferlogic.com/golden-harbour-demo.html). It simulates the app's screens with sample data in your browser. Logic tests: `node golden-harbour-logic.test.js` from the repo root. It is a demo only, not the iOS app.
