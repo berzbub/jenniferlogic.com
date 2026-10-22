@@ -20,3 +20,6 @@ Encrypted storage, staff login, a secure backend, HIPAA/GDPR review, and a backe
 
 ## No Xcode? Browser simulation
 Open `/golden-harbour-demo.html` (https://jenniferlogic.com/golden-harbour-demo.html). It simulates the app's screens with sample data in your browser. Logic tests: `node golden-harbour-logic.test.js` from the repo root. It is a demo only, not the iOS app.
+
+## Build without a Mac
+The workflow `.github/workflows/ghms-ios.yml` builds the app on a GitHub macOS runner (Actions tab > "GHMS iOS build" > Run workflow). A green run means the Swift code compiles. Signing and App Store upload still need your Apple Developer account (e.g. Xcode Cloud or a Mac).

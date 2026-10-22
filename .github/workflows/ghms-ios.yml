@@ -1,0 +1,31 @@
+name: GHMS iOS build
+
+on:
+  push:
+    paths: ['golden-harbour-ghms/**', 'golden-harbour-logic*.js']
+  pull_request:
+    paths: ['golden-harbour-ghms/**', 'golden-harbour-logic*.js']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: JS logic tests
+        run: node golden-harbour-logic.test.js
+      - name: Swift logic tests
+        working-directory: golden-harbour-ghms
+        run: swift test
+      - name: Generate Xcode project
+        working-directory: golden-harbour-ghms
+        run: brew install xcodegen && xcodegen generate
+      - name: Build for iOS Simulator
+        working-directory: golden-harbour-ghms
+        run: |
+          xcodebuild -project GoldenHarbour.xcodeproj -scheme GoldenHarbour \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build
