@@ -519,6 +519,7 @@ public func __allDiscoveredTests() -> [XCTestCaseEntry] {
             ("testExpiry", ClinicalLogicTests.testExpiry),
             ("testReminderOneHourBefore", ClinicalLogicTests.testReminderOneHourBefore),
             ("testReorderFlag", ClinicalLogicTests.testReorderFlag),
+            ("testSuggestions", ClinicalLogicTests.testSuggestions),
             ("testTelURL", ClinicalLogicTests.testTelURL)]),
     ]
 }

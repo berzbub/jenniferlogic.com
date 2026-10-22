@@ -19,6 +19,7 @@
  .red{color:#c00;font-weight:700}.green{color:#080;font-weight:700}.small{font-size:12px;color:#666}
  input,select,textarea{width:100%;box-sizing:border-box;padding:8px;margin:4px 0;font-size:14px}
  button.p{background:#0a60ff;color:#fff;border:0;border-radius:8px;padding:9px 12px;margin:4px 0;cursor:pointer}
+ .sg{display:block;width:100%;text-align:left;padding:7px;border:1px solid #ddd;background:#f7f9fc;cursor:pointer}
  img{max-width:100%;max-height:160px}
 </style>
 </head>
@@ -78,11 +79,16 @@ function patients() {
 }
 function inventory() {
   const n = field('Medicine name','text'), c = field('Category','text'), s = field('Stock','number','0'), r = field('Reorder point','number','10'), e = field('Expiry','date');
+  const CATALOG = ['Paracetamol 500mg','Ibuprofen 400mg','Amoxicillin 250mg','Amoxicillin 500mg','Metformin 500mg','Amlodipine 5mg','Omeprazole 20mg','Salbutamol Inhaler','Cetirizine 10mg','Oral Rehydration Salts'];
+  const box = el('div', {id:'suggest'});
+  n.setAttribute('autocomplete', 'off');
+  n.oninput = () => box.replaceChildren(...L.suggestions(n.value, [...CATALOG, ...db.meds.map(m => m.name)]).map(name =>
+    el('button', {class:'sg', onclick: () => { n.value = name; const m = db.meds.find(x => x.name === name); if (m && !c.value) c.value = m.cat; box.replaceChildren(); }}, name)));
   return el('div', {}, el('h2', {}, 'Pharma Inventory'),
     db.meds.map((m, i) => el('div', {class:'card'}, el('b', {}, m.name), el('div', {class:'small'}, m.cat + ' | expires ' + new Date(m.expiry).toLocaleDateString() + (L.isExpired(new Date(m.expiry)) ? ' EXPIRED' : '')),
       el('div', {class: L.needsReorder(m.stock, m.reorder) ? 'red' : 'green'}, `Stock ${m.stock} / Reorder ${m.reorder}` + (L.needsReorder(m.stock, m.reorder) ? ' – REORDER' : '')),
       el('button', {onclick: () => { db.meds.splice(i, 1); save(); render(); }}, 'Delete'))),
-    el('h3', {}, 'Add item'), n, c, s, r, e,
+    el('h3', {}, 'Add item'), n, box, c, s, r, e,
     el('button', {class:'p', onclick: () => { if (!n.value.trim()) return;
       db.meds.push({name:n.value.trim(), cat:c.value, stock:+s.value||0, reorder:+r.value||0, expiry: e.value ? new Date(e.value).getTime() : Date.now()+365*day});
       save(); render(); }}, 'Save item'));

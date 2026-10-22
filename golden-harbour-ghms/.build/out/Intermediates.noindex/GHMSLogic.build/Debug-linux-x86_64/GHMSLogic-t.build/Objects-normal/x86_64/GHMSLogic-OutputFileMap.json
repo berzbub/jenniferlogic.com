@@ -15,5 +15,15 @@
     "object" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.o",
     "swift-dependencies" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic.swiftdeps",
     "swiftmodule" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/ClinicalLogic~partial.swiftmodule"
+  },
+  "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/GHMS/Logic/MedicineCatalog.swift" : {
+    "const-values" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/MedicineCatalog.swiftconstvalues",
+    "dependencies" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/MedicineCatalog.d",
+    "diagnostics" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/MedicineCatalog.dia",
+    "index-unit-output-path" : "/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/MedicineCatalog.o",
+    "llvm-bc" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/MedicineCatalog.bc",
+    "object" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/MedicineCatalog.o",
+    "swift-dependencies" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/MedicineCatalog.swiftdeps",
+    "swiftmodule" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms/.build/out/Intermediates.noindex/GHMSLogic.build/Debug-linux-x86_64/GHMSLogic-t.build/Objects-normal/x86_64/MedicineCatalog~partial.swiftmodule"
   }
 }

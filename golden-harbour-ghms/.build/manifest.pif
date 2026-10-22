@@ -5,11 +5,11 @@
       "name" : "GHMSLogic",
       "path" : "/home/runner/work/jenniferlogic.com/jenniferlogic.com/golden-harbour-ghms",
       "projects" : [
-        "dc8384c0c24823ea7eb0d456094d17fee7e7a7555cb420ba7cd9e0941878192d",
+        "d3349cc3296d720c6366ca968d0caae0e9e21a9ab41659d03de801349cef198e",
         "ec2e1805a76f5b3956df4bd3c7c8ca44ec021fe52db3ec071129514bb1448177"
       ]
     },
-    "signature" : "765ac82300afee9b5bb4f6abdc34bf2c13e4112f2aab985dac9ed2cf68f95cc9",
+    "signature" : "3c9b2afd1fa90f7c860b87e6b5830f36f66a9df2c1b0eb20399c7abb80e3ab88",
     "type" : "workspace"
   },
   {
@@ -216,6 +216,14 @@
                 "path" : "ClinicalLogic.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:golden-harbour-ghms::MAINGROUP::REF_3::REF_1",
+                "name" : "MedicineCatalog.swift",
+                "path" : "MedicineCatalog.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
               }
             ],
             "guid" : "PACKAGE:golden-harbour-ghms::MAINGROUP::REF_3",
@@ -231,6 +239,14 @@
                 "guid" : "PACKAGE:golden-harbour-ghms::MAINGROUP::REF_4::REF_0",
                 "name" : "ClinicalLogic.swift",
                 "path" : "ClinicalLogic.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:golden-harbour-ghms::MAINGROUP::REF_4::REF_1",
+                "name" : "MedicineCatalog.swift",
+                "path" : "MedicineCatalog.swift",
                 "sourceTree" : "<group>",
                 "type" : "file"
               }
@@ -257,12 +273,12 @@
         "4733c35290df20861b1a3a1c101ecaf4c6343e4f7f4f4400f06ab8258bcc914c",
         "c65f7b53a376eea191403f43e4da880530b712cfe8d5c4f39386258c9c0193dc",
         "61c288b0d83593bdaa243556429598b80de11583021877139ae2a18c7acfa4fb",
-        "25897fc61a3d9c2b8b3d16d1a983ec31cd9035abce9c49c9c0662629cba3ace6",
-        "2299b7a664a8a7853e32a12e1192aef5a9d82ae8a19b89109d2dabb12264d85a",
+        "7eea17a847d6815fd285d41ca820b1343810bac64a9e66fa5f7828356a710948",
+        "4f971af65c4c5db2287943233f5bcfd5ec901cf77087f1ec69fc1ff0058961f4",
         "5973df37c9a3c9442a157c5055eeff2dfc5c73f26be5e399be3966e749dc18c4"
       ]
     },
-    "signature" : "dc8384c0c24823ea7eb0d456094d17fee7e7a7555cb420ba7cd9e0941878192d",
+    "signature" : "d3349cc3296d720c6366ca968d0caae0e9e21a9ab41659d03de801349cef198e",
     "type" : "project"
   },
   {
@@ -822,6 +838,15 @@
 
               ],
               "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:golden-harbour-ghms::MAINGROUP::REF_3::REF_1",
+              "guid" : "PACKAGE-TARGET:GHMSLogic::BUILDPHASE_0::1",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
             }
           ],
           "guid" : "PACKAGE-TARGET:GHMSLogic::BUILDPHASE_0",
@@ -848,7 +873,7 @@
       "productTypeIdentifier" : "org.swift.product-type.library.static",
       "type" : "standard"
     },
-    "signature" : "25897fc61a3d9c2b8b3d16d1a983ec31cd9035abce9c49c9c0662629cba3ace6",
+    "signature" : "7eea17a847d6815fd285d41ca820b1343810bac64a9e66fa5f7828356a710948",
     "type" : "target"
   },
   {
@@ -1028,6 +1053,15 @@
 
               ],
               "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:golden-harbour-ghms::MAINGROUP::REF_4::REF_1",
+              "guid" : "PACKAGE-TARGET:GHMSLogic--24970C5D3F7D0EDA-dynamic::BUILDPHASE_0::1",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
             }
           ],
           "guid" : "PACKAGE-TARGET:GHMSLogic--24970C5D3F7D0EDA-dynamic::BUILDPHASE_0",
@@ -1053,7 +1087,7 @@
       "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
       "type" : "standard"
     },
-    "signature" : "2299b7a664a8a7853e32a12e1192aef5a9d82ae8a19b89109d2dabb12264d85a",
+    "signature" : "4f971af65c4c5db2287943233f5bcfd5ec901cf77087f1ec69fc1ff0058961f4",
     "type" : "target"
   },
   {

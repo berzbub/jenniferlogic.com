@@ -152,6 +152,7 @@ struct InventoryView: View {
 }
 
 struct AddMedicineView: View {
+    @Query private var existingItems: [MedicineItem]
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
 
@@ -165,6 +166,12 @@ struct AddMedicineView: View {
         NavigationView {
             Form {
                 TextField("Medicine Name", text: $medicineName)
+                ForEach(ClinicalLogic.suggestions(for: medicineName, from: MedicineCatalog.names + existingItems.map(\.medicineName)), id: \.self) { name in
+                    Button(name) {
+                        medicineName = name
+                        if category.isEmpty, let c = existingItems.first(where: { $0.medicineName == name })?.category { category = c }
+                    }
+                }
                 TextField("Category", text: $category)
                 Stepper("Stock Level: \(stockLevel)", value: $stockLevel, in: 0...1000)
                 Stepper("Reorder Point: \(reorderPoint)", value: $reorderPoint, in: 0...100)

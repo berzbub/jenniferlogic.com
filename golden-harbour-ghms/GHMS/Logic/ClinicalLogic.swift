@@ -56,4 +56,15 @@ public enum ClinicalLogic {
         guard let pct = auditVariancePercent(systemStock: systemStock, countedStock: countedStock) else { return false }
         return abs(pct) <= tolerancePercent
     }
+
+    /// Autocomplete: case-insensitive matches, prefix matches first, duplicates removed, capped at `limit`.
+    public static func suggestions(for query: String, from candidates: [String], limit: Int = 5) -> [String] {
+        let q = query.trimmingCharacters(in: .whitespaces).lowercased()
+        guard !q.isEmpty else { return [] }
+        var seen = Set<String>()
+        let unique = candidates.filter { seen.insert($0.lowercased()).inserted }
+        let prefix = unique.filter { $0.lowercased().hasPrefix(q) }
+        let contains = unique.filter { !$0.lowercased().hasPrefix(q) && $0.lowercased().contains(q) }
+        return Array((prefix + contains).filter { $0.lowercased() != q }.prefix(limit))
+    }
 }

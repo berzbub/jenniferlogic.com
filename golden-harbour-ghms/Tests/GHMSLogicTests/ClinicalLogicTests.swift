@@ -38,4 +38,14 @@ final class ClinicalLogicTests: XCTestCase {
         XCTAssertTrue(ClinicalLogic.auditWithinTolerance(systemStock: 100, countedStock: 97, tolerancePercent: 5))
         XCTAssertFalse(ClinicalLogic.auditWithinTolerance(systemStock: 0, countedStock: 3, tolerancePercent: 5))
     }
+
+    func testSuggestions() {
+        let c = ["Paracetamol 500mg", "Amoxicillin 250mg", "Amoxicillin 500mg", "Acetaminophen", "paracetamol 500mg"]
+        XCTAssertEqual(ClinicalLogic.suggestions(for: "amox", from: c), ["Amoxicillin 250mg", "Amoxicillin 500mg"])
+        XCTAssertEqual(ClinicalLogic.suggestions(for: "500", from: c), ["Paracetamol 500mg", "Amoxicillin 500mg"])
+        XCTAssertEqual(ClinicalLogic.suggestions(for: "para", from: c), ["Paracetamol 500mg"])
+        XCTAssertEqual(ClinicalLogic.suggestions(for: "", from: c), [])
+        XCTAssertEqual(ClinicalLogic.suggestions(for: "acetaminophen", from: c), [])
+        XCTAssertEqual(ClinicalLogic.suggestions(for: "a", from: c, limit: 2).count, 2)
+    }
 }
