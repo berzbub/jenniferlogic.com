@@ -3,7 +3,7 @@ import { THEMES, applyTheme } from './themes.js';
 export class TerminalParser {
     constructor(core) {
         this.core = core;
-        this.commands = ['help', 'status', 'license', 'aero-scan', 'theme', 'lang', 'ai', 'ai-vision', 'ai-key', 'clear'];
+        this.commands = ['help', 'status', 'license', 'aero-scan', 'theme', 'lang', 'ai', 'ai-vision', 'gigle-url', 'clear'];
     }
 
     async execute(commandStr) {
@@ -17,7 +17,7 @@ export class TerminalParser {
                 break;
             case 'help':
                 out(`Available commands: ${this.commands.join(', ')}`);
-                out("theme <name|list> | lang <en|fil|ilo|pag> | ai <prompt> | ai-vision <prompt> (attach image) | ai-key <Gemini key>");
+                out("theme <name|list> | lang <en|fil|ilo|pag> | ai <prompt> (Gigle-AI) | ai-vision <prompt> (attach image) | gigle-url [endpoint]");
                 break;
             case 'status':
                 out("SYSTEM: OPERATIONAL. Edge CDN: ACTIVE. Security: Zero-Trust.");
@@ -48,18 +48,23 @@ export class TerminalParser {
                 await this.core.i18n.load(rest.toLowerCase());
                 out(this.core.i18n.t('terminal.welcome_message'));
                 break;
-            case 'ai-key':
-                if (!rest) { out("[ERROR] Usage: ai-key <Gemini API key>"); break; }
-                this.core.ai.setKey(rest);
-                out("[AI] Key saved in this browser only.");
+            case 'gigle-url':
+                this.core.ai.setEndpoint(rest);
+                out("[GIGLE-AI] Endpoint: " + this.core.ai.endpoint);
                 break;
             case 'ai':
             case 'ai-vision':
-                if (!rest) { out(`[ERROR] Usage: ${cmd} <prompt>`); break; }
+                if (!rest) { out("[ERROR] Usage: " + cmd + " <prompt>"); break; }
                 try {
-                    const image = cmd === 'ai-vision' ? await this.core.ai.pickImage() : undefined;
-                    out("[AI] Thinking...");
-                    out("[AI] " + await this.core.ai.ask(rest, image));
+                    const files = cmd === 'ai-vision' ? [await this.core.ai.pickImage()] : [];
+                    const line = this.core.beginStream('[GIGLE-AI] ');
+                    this.core.spatial?.setBusy(true);
+                    try {
+                        const reply = await this.core.ai.ask(rest, files, t => line.append(t));
+                        if (!reply) line.append('(empty response)');
+                    } finally {
+                        this.core.spatial?.setBusy(false);
+                    }
                 } catch (e) {
                     out("[ERROR] " + e.message);
                 }

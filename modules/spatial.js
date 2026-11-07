@@ -53,6 +53,8 @@ export class SpatialInterface {
         this.animate();
     }
 
+    setBusy(b) { this.busy = b; }
+
     setTheme(t) {
         if (!this.mesh) return;
         this.material.color.setHex(t.accent);
@@ -63,9 +65,10 @@ export class SpatialInterface {
 
     animate() {
         requestAnimationFrame(() => this.animate());
+        const boost = this.busy ? 6 : 1; // spin faster while Gigle-AI streams
         if (!this.reduced) {
-            this.mesh.rotation.x += 0.002;
-            this.mesh.rotation.y += 0.003;
+            this.mesh.rotation.x += 0.002 * boost;
+            this.mesh.rotation.y += 0.003 * boost;
             this.stars.rotation.y += 0.0004;
         }
         this.camera.position.x += (this.tx - this.camera.position.x) * 0.05;
