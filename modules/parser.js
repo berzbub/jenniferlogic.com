@@ -3,7 +3,7 @@ import { THEMES, applyTheme } from './themes.js';
 export class TerminalParser {
     constructor(core) {
         this.core = core;
-        this.commands = ['help', 'status', 'license', 'aero-scan', 'theme', 'lang', 'ai', 'ai-vision', 'gigle-url', 'clear'];
+        this.commands = ['help', 'status', 'license', 'aero-scan', 'theme', 'lang', 'ai', 'ai-vision', 'gigle-url', 'builder', 'clear'];
     }
 
     async execute(commandStr) {
@@ -47,6 +47,10 @@ export class TerminalParser {
             case 'lang':
                 await this.core.i18n.load(rest.toLowerCase());
                 out(this.core.i18n.t('terminal.welcome_message'));
+                break;
+            case 'builder':
+                out("[SYS] Opening Gigle-AI Page Builder...");
+                location.href = './builder.html';
                 break;
             case 'gigle-url':
                 this.core.ai.setEndpoint(rest);

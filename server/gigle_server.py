@@ -5,13 +5,15 @@ Env:
   GIGLE_AI_API_KEY       Bearer token for the engine (optional)
   GIGLE_ALLOWED_ORIGINS  comma-separated CORS origins (default: https://jenniferlogic.com)
   GIGLE_TIMEOUT          upstream timeout seconds (default 60)
+  GIGLE_BUILDER_TOKEN    bearer token required to push page-builder instructions (feature disabled if unset)
 Run: uvicorn server.gigle_server:app --port 8000
 """
+import hmac
 import json
 import os
 
 import httpx
-from fastapi import FastAPI
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
@@ -21,7 +23,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=os.getenv("GIGLE_ALLOWED_ORIGINS", "https://jenniferlogic.com").split(","),
     allow_methods=["POST", "GET"],
-    allow_headers=["Content-Type"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 MAX_ATTACHMENT_CHARS = 8_000_000
@@ -86,3 +88,32 @@ async def chat(req: ChatRequest):
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )
+
+
+# --- Page builder: backend-pushed instructions, polled by the frontend builder ---
+ALLOWED_OPS = {"set_html", "add_css", "set_title", "set_viewport", "set_theme"}
+_pending_ops: list[dict] = []
+
+
+class BuilderInstructions(BaseModel):
+    ops: list[dict] = Field(min_length=1, max_length=50)
+
+
+@app.post("/api/gigle/builder/instructions")
+async def push_instructions(body: BuilderInstructions, authorization: str = Header(default="")):
+    token = os.getenv("GIGLE_BUILDER_TOKEN")
+    if not token:
+        raise HTTPException(503, "GIGLE_BUILDER_TOKEN is not configured")
+    if not hmac.compare_digest(authorization, "Bearer " + token):
+        raise HTTPException(401, "invalid token")
+    ops = [o for o in body.ops if o.get("op") in ALLOWED_OPS]
+    _pending_ops.extend(ops)
+    del _pending_ops[:-200]
+    return {"queued": len(ops)}
+
+
+@app.get("/api/gigle/builder/instructions")
+async def pull_instructions():
+    ops = _pending_ops.copy()
+    _pending_ops.clear()
+    return {"ops": ops}

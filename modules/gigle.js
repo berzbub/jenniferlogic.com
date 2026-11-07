@@ -12,8 +12,10 @@ export class GigleClient {
     }
 
     // Streams a reply; calls onToken(text) per chunk and resolves with the full text.
-    async ask(prompt, attachments = [], onToken = () => {}, signal) {
-        const messages = [...this.history, { role: 'user', content: prompt }];
+    async ask(prompt, attachments = [], onToken = () => {}, signal, opts = {}) {
+        const remember = opts.remember !== false;
+        const messages = [...(remember ? this.history : []), { role: 'user', content: prompt }];
+        if (opts.system) messages.unshift({ role: 'system', content: opts.system });
         let res;
         try {
             res = await fetch(this.endpoint, {
@@ -61,8 +63,10 @@ export class GigleClient {
             if (buf.startsWith('data:')) handle(buf.slice(5).trim());
         }
 
-        this.history.push({ role: 'user', content: prompt }, { role: 'assistant', content: full });
-        this.history = this.history.slice(-20);
+        if (remember) {
+            this.history.push({ role: 'user', content: prompt }, { role: 'assistant', content: full });
+            this.history = this.history.slice(-20);
+        }
         return full;
     }
 
