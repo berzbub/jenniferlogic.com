@@ -1,13 +1,13 @@
 import { I18n } from './modules/i18n.js';
 import { TerminalParser } from './modules/parser.js';
 import { SpatialInterface } from './modules/spatial.js';
-import { GeminiClient } from './modules/ai.js';
+import { GigleClient } from './modules/gigle.js';
 import { applyTheme } from './modules/themes.js';
 
 class Core {
     constructor() {
         this.i18n = new I18n();
-        this.ai = new GeminiClient();
+        this.ai = new GigleClient();
         this.parser = new TerminalParser(this);
         this.screen = document.getElementById('output-screen');
         this.input = document.getElementById('command-input');
@@ -21,6 +21,16 @@ class Core {
         line.textContent = text; // textContent prevents HTML injection from AI/user output
         this.screen.appendChild(line);
         this.screen.scrollTop = this.screen.scrollHeight;
+    }
+
+    beginStream(prefix) {
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+        line.textContent = prefix;
+        this.screen.appendChild(line);
+        return {
+            append: t => { line.textContent += t; this.screen.scrollTop = this.screen.scrollHeight; }
+        };
     }
 
     async start() {
