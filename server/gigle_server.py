@@ -63,17 +63,36 @@ async def chat(req: ChatRequest):
     if os.getenv("GIGLE_AI_API_KEY"):
         headers["Authorization"] = "Bearer " + os.environ["GIGLE_AI_API_KEY"]
     timeout = float(os.getenv("GIGLE_TIMEOUT", "60"))
+    payload = req.model_dump()
+    persona = os.getenv("GIGLE_PERSONA")
+    if persona:
+        payload["messages"].insert(0, {"role": "system", "content": persona})
+    model = os.getenv("GIGLE_AI_MODEL")
+    if model:  # OpenAI-compatible engine (e.g. Ollama): no attachments, explicit model
+        payload = {"model": model, "messages": payload["messages"], "stream": True}
 
     async def stream():
         try:
             async with httpx.AsyncClient(timeout=timeout) as client:
-                async with client.stream("POST", url, headers=headers, json=req.model_dump()) as r:
+                async with client.stream("POST", url, headers=headers, json=payload) as r:
                     if r.status_code >= 400:
                         yield sse({"error": f"engine returned HTTP {r.status_code}"})
                         return
                     if "text/event-stream" in r.headers.get("content-type", ""):
                         async for line in r.aiter_lines():
-                            if line.startswith("data:"):
+                            if not line.startswith("data:"):
+                                continue
+                            if model:
+                                chunk = line[5:].strip()
+                                if chunk == "[DONE]":
+                                    continue
+                                try:
+                                    delta = json.loads(chunk)["choices"][0].get("delta", {}).get("content") or ""
+                                except (ValueError, KeyError, IndexError):
+                                    continue
+                                if delta:
+                                    yield sse({"text": delta})
+                            else:
                                 yield (line + "\n\n").encode()
                     else:
                         body = json.loads((await r.aread()) or b"{}")
@@ -117,3 +136,9 @@ async def pull_instructions():
     ops = _pending_ops.copy()
     _pending_ops.clear()
     return {"ops": ops}
+
+
+# Local dev: serve the frontend from the same origin so relative /api/gigle/* URLs work.
+if os.getenv("GIGLE_SERVE_STATIC"):
+    from fastapi.staticfiles import StaticFiles
+    app.mount("/", StaticFiles(directory=os.path.join(os.path.dirname(__file__), ".."), html=True), name="static")
